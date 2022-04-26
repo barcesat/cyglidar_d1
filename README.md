@@ -5,6 +5,9 @@ For more details in CygLiDAR, please visit http://www.cygbot.com
 ## How to use this package
 
 ### Preparation - for ROS NOETIC
+
+sudo apt install libpcl-dev
+
 1) Clone this repository to your catkin's workspace
 2) Run catkin build -DCMAKE_CXX_STANDARD=14
 

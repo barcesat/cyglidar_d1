@@ -1,6 +1,7 @@
 <launch>
   
-  <include file="$(find xsens_mti_driver)/launch/display.launch" />
+  <!-- <include file="$(find xsens_mti_driver)/launch/display.launch" /> -->
+  
   
   <!-- Arguments -->
   <arg name="version" default="2" doc="version type [0, 1, 2]"/> <!-- 0: 2D, 1: 3D, 2: Dual -->
@@ -9,7 +10,7 @@
   <arg name="pulse_duration" default="10000" doc="duration [0 to 10000]"/>
 
   <node pkg="cyglidar_d1" type="cyglidar_pcl_publisher" name="line_laser" output="screen">
-    <param name="port" value="/dev/ttyUSB2"/>  
+    <param name="port" value="/dev/ttyUSB0"/>  
     <!-- /dev/cyglidar"/> -->
     <param name="baud_rate" value="3000000"/>
     <param name="frame_id" value="laser_link"/>
@@ -19,6 +20,10 @@
     <param name="set_auto_duration" value="$(arg pulse_control)"/>
     <param name="duration" value="$(arg pulse_duration)"/>
   </node>
+  
+  <arg name="model" default="$(find xsens_mti_driver)/urdf/MTi_6xx.urdf"/>
+  <include file="$(find xsens_mti_driver)/launch/xsens_mti_node.launch" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
 
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find cyglidar_d1)/rviz/cyglidar_config_dual_imu.rviz"  required="true" />
 

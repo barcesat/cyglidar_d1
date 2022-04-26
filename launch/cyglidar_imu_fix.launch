@@ -5,7 +5,7 @@
   <arg name="pulse_control" default="0" doc="pulse mode [0, 1]"/> <!-- 0: Auto, 1: Manual -->
   <arg name="pulse_duration" default="10000" doc="duration [0 to 10000]"/>
 
-  <node pkg="cyglidar_d1" type="cyglidar_pcl_publisher" name="line_laser" output="screen">
+  <node pkg="cyglidar_d1" type="cyglidar_pcl_publisher" name="line_laser" output="screen" required="true">
     <param name="port" value="/dev/cyglidar"/> 
     <!-- <param name="port" value="/dev/ttyUSB1"/> -->
     <!-- /dev/ttyUSB1"/>  -->
@@ -17,8 +17,13 @@
     <param name="set_auto_duration" value="$(arg pulse_control)"/>
     <param name="duration" value="$(arg pulse_duration)"/>
   </node>
+  
+  <node  name="xsens_mti_node" pkg="xsens_mti_driver" type="xsens_mti_node" output="screen" required="true">
+    <rosparam command="load" file="$(find xsens_mti_driver)/param/xsens_mti_node.yaml" />
+  </node>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find cyglidar_d1)/rviz/cyglidar_config_dual.rviz"/>
-  <node pkg="tf" type="static_transform_publisher" name="map_to_laserlink" args="0 0 0 0 0 0 1 laser_link map 100"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find cyglidar_d1)/rviz/cyglidar_config_dual_imu2.rviz" required="true"/>
+  <node pkg="tf" type="static_transform_publisher" name="map_to_laserlink" args="0 0 0 0 0 0 1 laser_link map 100" required="true"/>
   <!-- <node pkg="tf" type="static_transform_publisher" name="to_laserlink" args="0 0 0 0 0 0 1 imu_link laser_link 10"/> -->
+
 </launch>
