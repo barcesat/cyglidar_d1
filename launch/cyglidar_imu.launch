@@ -25,6 +25,8 @@
   <include file="$(find xsens_mti_driver)/launch/xsens_mti_node.launch" />
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
 
+  
+
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find cyglidar_d1)/rviz/cyglidar_config_dual_imu.rviz"  required="true" />
 
 </launch>
